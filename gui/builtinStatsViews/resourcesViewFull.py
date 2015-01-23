@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -60,7 +61,7 @@ class ResourcesViewFull(StatsView):
         self.headerPanel.Layout()
 
     def getHeaderText(self, fit):
-        return "Resources"
+        return u"舰船资源"
 
     def getTextExtentW(self, text):
         width, height = self.parent.GetTextExtent( text )
@@ -87,7 +88,7 @@ class ResourcesViewFull(StatsView):
         base = sizerResources
 
         #Turrets & launcher hardslots display
-        tooltipText = {"turret":"Turret hardpoints", "launcher":"Launcher hardpoints", "drones":"Drones active", "calibration":"Calibration"}
+        tooltipText = {"turret":u"炮台安装数", "launcher":u"发射器安装数", "drones":u"无人机激活数", "calibration":u"校准值"}
         for type in ("turret", "launcher", "drones", "calibration"):
             box = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -112,7 +113,7 @@ class ResourcesViewFull(StatsView):
 
 
         #PG, Cpu & drone stuff
-        tooltipText = {"cpu":"CPU", "pg":"PowerGrid", "droneBay":"Drone bay", "droneBandwidth":"Drone bandwidth", "cargoBay":"Cargo bay"}
+        tooltipText = {"cpu":u"CPU", "pg":u"能量栅格", "droneBay":u"无人机挂舱", "droneBandwidth":u"无人机带宽", "cargoBay":u"货柜舱"}
         for i, group in enumerate((("cpu", "pg"), ("cargoBay", "droneBay", "droneBandwidth"))):
             main = wx.BoxSizer(wx.VERTICAL)
             base.Add(main, 1 , wx.ALIGN_CENTER)

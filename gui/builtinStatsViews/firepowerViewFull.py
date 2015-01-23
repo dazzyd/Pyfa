@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -32,7 +33,7 @@ class FirepowerViewFull(StatsView):
         self._cachedValues = []
 
     def getHeaderText(self, fit):
-        return "Firepower"
+        return u"火力输出"
 
     def getTextExtentW(self, text):
         width, height = self.parent.GetTextExtent( text )
@@ -44,7 +45,7 @@ class FirepowerViewFull(StatsView):
 
         self.headerPanel = headerPanel
         hsizer = self.headerPanel.GetSizer()
-        self.stEff = wx.StaticText(self.headerPanel, wx.ID_ANY, "( Effective )")
+        self.stEff = wx.StaticText(self.headerPanel, wx.ID_ANY, u"( 有效输出 )")
         hsizer.Add(self.stEff)
         self.headerPanel.GetParent().AddToggleItem(self.stEff)
 
@@ -57,6 +58,7 @@ class FirepowerViewFull(StatsView):
 
         counter = 0
 
+        damageTypeName = {"weapon": u"武器" , "drone": u"无人机"}
         for damageType, image in (("weapon", "turret"), ("drone", "droneDPS")):
             baseBox = wx.BoxSizer(wx.HORIZONTAL)
             sizerFirepower.Add(baseBox, 1, wx.ALIGN_LEFT if counter == 0 else wx.ALIGN_CENTER_HORIZONTAL)
@@ -66,7 +68,7 @@ class FirepowerViewFull(StatsView):
             box = wx.BoxSizer(wx.VERTICAL)
             baseBox.Add(box, 0, wx.ALIGN_CENTER)
 
-            box.Add(wx.StaticText(parent, wx.ID_ANY, damageType.capitalize()), 0, wx.ALIGN_LEFT)
+            box.Add(wx.StaticText(parent, wx.ID_ANY, damageTypeName[damageType]), 0, wx.ALIGN_LEFT)
 
             hbox = wx.BoxSizer(wx.HORIZONTAL)
             box.Add(hbox, 1, wx.ALIGN_CENTER)
@@ -90,14 +92,14 @@ class FirepowerViewFull(StatsView):
 
         lbl = wx.StaticText(parent, wx.ID_ANY, "0.0")
         setattr(self, "label%sVolleyTotal" % panel.capitalize(), lbl)
-        gridS.Add(wx.StaticText(parent, wx.ID_ANY, " Volley: "), 0, wx.ALL | wx.ALIGN_RIGHT)
+        gridS.Add(wx.StaticText(parent, wx.ID_ANY, u" DPH: "), 0, wx.ALL | wx.ALIGN_RIGHT)
         gridS.Add(lbl, 0, wx.ALIGN_LEFT)
 
         self._cachedValues.append(0)
 
         lbl = wx.StaticText(parent, wx.ID_ANY, "0.0")
         setattr(self, "label%sDpsTotal" % panel.capitalize(), lbl)
-        gridS.Add(wx.StaticText(parent, wx.ID_ANY, " DPS: "), 0, wx.ALL | wx.ALIGN_RIGHT)
+        gridS.Add(wx.StaticText(parent, wx.ID_ANY, u" DPS: "), 0, wx.ALL | wx.ALIGN_RIGHT)
 
         self._cachedValues.append(0)
 
@@ -105,7 +107,7 @@ class FirepowerViewFull(StatsView):
 
         image = bitmapLoader.getBitmap("mining_small", "icons")
         self.miningyield = wx.BitmapButton(contentPanel, -1, image)
-        self.miningyield.SetToolTip(wx.ToolTip("Click to toggle to Mining Yield "))
+        self.miningyield.SetToolTip(wx.ToolTip(u"切换到采矿产量"))
         self.miningyield.Bind(wx.EVT_BUTTON, self.switchToMiningYieldView)
         sizerFirepower.Add(self.miningyield, 0, wx.ALIGN_LEFT)
 
@@ -147,7 +149,7 @@ class FirepowerViewFull(StatsView):
 
         stats = (("labelFullDpsWeapon", lambda: fit.weaponDPS, 3, 0, 0, "%s DPS",None),
                  ("labelFullDpsDrone", lambda: fit.droneDPS, 3, 0, 0, "%s DPS", None),
-                 ("labelFullVolleyTotal", lambda: fit.totalVolley, 3, 0, 0, "%s", "Volley: %.1f"),
+                 ("labelFullVolleyTotal", lambda: fit.totalVolley, 3, 0, 0, "%s", "DPH: %.1f"),
                  ("labelFullDpsTotal", lambda: fit.totalDPS, 3, 0, 0, "%s", None))
         # See GH issue #
         #if fit is not None and fit.totalYield > 0:

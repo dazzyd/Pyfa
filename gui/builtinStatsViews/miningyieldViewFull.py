@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2014 Alexandros Kosiaris
 #
@@ -31,7 +32,7 @@ class MiningYieldViewFull(StatsView):
         self.parent = parent
         self._cachedValues = []
     def getHeaderText(self, fit):
-        return "Mining Yield"
+        return u"采矿产量"
 
     def getTextExtentW(self, text):
         width, height = self.parent.GetTextExtent( text )
@@ -51,6 +52,7 @@ class MiningYieldViewFull(StatsView):
 
         counter = 0
 
+        miningTypeName = {"miner": u"采矿器", "drone": u"无人机"}
         for miningType, image in (("miner", "mining") , ("drone", "drones")):
             baseBox = wx.BoxSizer(wx.HORIZONTAL)
             sizerMiningYield.Add(baseBox, 1, wx.ALIGN_LEFT if counter == 0 else wx.ALIGN_CENTER_HORIZONTAL)
@@ -60,7 +62,7 @@ class MiningYieldViewFull(StatsView):
             box = wx.BoxSizer(wx.VERTICAL)
             baseBox.Add(box, 0, wx.ALIGN_CENTER)
 
-            box.Add(wx.StaticText(parent, wx.ID_ANY, miningType.capitalize()), 0, wx.ALIGN_LEFT)
+            box.Add(wx.StaticText(parent, wx.ID_ANY, miningTypeName[miningType]), 0, wx.ALIGN_LEFT)
 
             hbox = wx.BoxSizer(wx.HORIZONTAL)
             box.Add(hbox, 1, wx.ALIGN_CENTER)
@@ -81,7 +83,7 @@ class MiningYieldViewFull(StatsView):
         box = wx.BoxSizer(wx.VERTICAL)
         baseBox.Add(box, 0, wx.EXPAND)
 
-        box.Add(wx.StaticText(parent, wx.ID_ANY, "Total"), 0, wx.ALIGN_LEFT)
+        box.Add(wx.StaticText(parent, wx.ID_ANY, u"合计"), 0, wx.ALIGN_LEFT)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         box.Add(hbox, 1, wx.EXPAND)
@@ -94,7 +96,7 @@ class MiningYieldViewFull(StatsView):
 
         image = bitmapLoader.getBitmap("turret_small", "icons")
         firepower = wx.BitmapButton(contentPanel, -1, image)
-        firepower.SetToolTip(wx.ToolTip("Click to toggle to Firepower View"))
+        firepower.SetToolTip(wx.ToolTip(u"切换到火力输出"))
         firepower.Bind(wx.EVT_BUTTON, self.switchToFirepowerView)
         sizerMiningYield.Add(firepower, 0, wx.ALIGN_LEFT)
 

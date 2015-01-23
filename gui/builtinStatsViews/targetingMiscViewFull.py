@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -35,7 +36,7 @@ class TargetingMiscViewFull(StatsView):
         self.parent = parent
         self._cachedValues = []
     def getHeaderText(self, fit):
-        return "Targeting && Misc"
+        return u"锁定系统及其他"
 
     def getTextExtentW(self, text):
         width, height = self.parent.GetTextExtent( text )
@@ -57,11 +58,11 @@ class TargetingMiscViewFull(StatsView):
 
         gridTargetingMisc.Add(gridTargeting, 0, wx.ALIGN_LEFT | wx.ALL, 5)
 
-        labels = (("Targets", "Targets", ""),
-                  ("Range", "Range", "km"),
-                  ("Scan res.", "ScanRes", "mm"),
-                  ("Sensor str.", "SensorStr", ""),
-                  ("Drone range", "CtrlRange", "km"))
+        labels = ((u"锁定目标数", "Targets", ""),
+                  (u"锁定距离", "Range", "km"),
+                  (u"扫描分辨率", "ScanRes", "mm"),
+                  (u"感应强度", "SensorStr", ""),
+                  (u"无人机控制距离", "CtrlRange", "km"))
 
         for header, labelShort, unit in labels:
             gridTargeting.Add(wx.StaticText(contentPanel, wx.ID_ANY, "%s: " % header), 0, wx.ALIGN_LEFT)
@@ -81,11 +82,11 @@ class TargetingMiscViewFull(StatsView):
         gridMisc.AddGrowableCol(1)
         gridTargetingMisc.Add(gridMisc,0 , wx.ALIGN_LEFT | wx.ALL, 5)
 
-        labels = (("Speed", "Speed", "m/s"),
-                  ("Align time", "AlignTime", "s"),
-                  ("Signature", "SigRadius", "m"),
-                  ("Warp Speed", "WarpSpeed", "AU/s"),
-                  ("Cargo", "Cargo", u"m\u00B3"))
+        labels = ((u"速度", "Speed", "m/s"),
+                  (u"转向时间", "AlignTime", "s"),
+                  (u"信号半径", "SigRadius", "m"),
+                  (u"跃迁速度", "WarpSpeed", "AU/s"),
+                  (u"货柜舱", "Cargo", u"m\u00B3"))
 
         for header, labelShort, unit in labels:
             gridMisc.Add(wx.StaticText(contentPanel, wx.ID_ANY, "%s: " % header), 0, wx.ALIGN_LEFT)
@@ -156,10 +157,10 @@ class TargetingMiscViewFull(StatsView):
                  ("labelFullCargo", cargoValues, 3, 0, 9, u"m\u00B3"))
 
         counter = 0
-        RADII = [("Pod",25), ("Interceptor",33), ("Frigate",38),
-                 ("Destroyer", 83), ("Cruiser", 130),
-                 ("Battlecruiser", 265),  ("Battleship",420),
-                 ("Carrier", 3000)]
+        RADII = [(u"太空舱",25), (u"截击舰",33), (u"护卫舰",38),
+                 (u"驱逐舰", 83), (u"巡洋舰", 130),
+                 (u"战列巡洋舰", 265),  (u"战列舰",420),
+                 (u"航空母舰", 3000)]
         for labelName, valueDict, prec, lowest, highest, unit in stats:
             label = getattr(self, labelName)
             newValues = {}
@@ -184,29 +185,29 @@ class TargetingMiscViewFull(StatsView):
                 # Tooltip stuff
                 if fit:
                     if labelName == "labelScanRes":
-                        lockTime = "%s\n" % "Lock Times".center(30)
+                        lockTime = "%s\n" % u"锁定时间".center(30)
                         for size, radius in RADII:
                             left = "%.1fs" % fit.calculateLockTime(radius)
                             right = "%s [%d]" % (size, radius)
                             lockTime += "%5s\t%s\n" % (left,right)
                         label.SetToolTip(wx.ToolTip(lockTime))
                     elif labelName == "labelFullSigRadius":
-                        label.SetToolTip(wx.ToolTip("Probe Size: %.3f" % (fit.probeSize or 0) ))
+                        label.SetToolTip(wx.ToolTip(u"Probe Size: %.3f" % (fit.probeSize or 0) ))
                     elif labelName == "labelFullWarpSpeed":
-                        label.SetToolTip(wx.ToolTip("Max Warp Distance: %.1f AU" % fit.maxWarpDistance))
+                        label.SetToolTip(wx.ToolTip(u"最大跃迁距离: %.1f AU" % fit.maxWarpDistance))
                     elif labelName == "labelSensorStr":
                         if fit.jamChance > 0:
-                           label.SetToolTip(wx.ToolTip("Type: %s\n%.1f%% Chance of Jam" % (fit.scanType, fit.jamChance)))
+                           label.SetToolTip(wx.ToolTip(u"类型: %s\nECM概率: %.1f%%" % (_(fit.scanType), fit.jamChance)))
                         else:
-                           label.SetToolTip(wx.ToolTip("Type: %s" % (fit.scanType)))
+                           label.SetToolTip(wx.ToolTip(u"类型: %s" % (_(fit.scanType))))
                     elif labelName == "labelFullAlignTime":
-                        alignTime = "Align:\t%.3fs"%mainValue
-                        mass = "Mass:\t%skg"%locale.format('%d', fit.ship.getModifiedItemAttr("mass"), 1)
-                        agility = "Agility:\t%.3fx"%fit.ship.getModifiedItemAttr("agility")
+                        alignTime = u"转向:\t%.3fs"%mainValue
+                        mass = u"质量:\t%skg"%locale.format('%d', fit.ship.getModifiedItemAttr("mass"), 1)
+                        agility = u"惯性:\t%.3fx"%fit.ship.getModifiedItemAttr("agility")
                         label.SetToolTip(wx.ToolTip("%s\n%s\n%s" % (alignTime, mass, agility)))
                     elif labelName == "labelFullCargo":
                         tipLines = []
-                        tipLines.append(u"Cargohold: %.1fm\u00B3 / %sm\u00B3"% (fit.cargoBayUsed, newValues["main"]))
+                        tipLines.append(u"货柜舱: %.1fm\u00B3 / %sm\u00B3"% (fit.cargoBayUsed, newValues["main"]))
                         for attrName, tipAlias in cargoNamesOrder.items():
                             if newValues[attrName] > 0:
                                 tipLines.append(u"%s: %sm\u00B3"% (tipAlias, newValues[attrName]))
@@ -218,15 +219,15 @@ class TargetingMiscViewFull(StatsView):
                 self._cachedValues[counter] = newValues
             elif labelName == "labelFullWarpSpeed":
                 if fit:
-                    label.SetToolTip(wx.ToolTip("Max Warp Distance: %.1f AU" % fit.maxWarpDistance))
+                    label.SetToolTip(wx.ToolTip(u"最大跃迁距离: %.1f AU" % fit.maxWarpDistance))
                 else:
                     label.SetToolTip(wx.ToolTip(""))
             elif labelName == "labelSensorStr":
                 if fit:
                     if fit.jamChance > 0:
-                        label.SetToolTip(wx.ToolTip("Type: %s\n%.1f%% Chance of Jam" % (fit.scanType, fit.jamChance)))
+                        label.SetToolTip(wx.ToolTip(u"类型: %s\nECM概率: %.1f%%" % (_(fit.scanType), fit.jamChance)))
                     else:
-                        label.SetToolTip(wx.ToolTip("Type: %s" % (fit.scanType)))
+                        label.SetToolTip(wx.ToolTip(u"类型: %s" % (_(fit.scanType))))
                 else:
                     label.SetToolTip(wx.ToolTip(""))
             elif labelName == "labelFullCargo":
@@ -235,7 +236,7 @@ class TargetingMiscViewFull(StatsView):
                     # if you add stuff to cargo, the capacity doesn't change and thus it is still cached
                     # This assures us that we force refresh of cargo tooltip
                     tipLines = []
-                    tipLines.append(u"Cargohold: %.1fm\u00B3 / %sm\u00B3"% (fit.cargoBayUsed, cachedCargo["main"]))
+                    tipLines.append(u"货柜舱: %.1fm\u00B3 / %sm\u00B3"% (fit.cargoBayUsed, cachedCargo["main"]))
                     for attrName, tipAlias in cargoNamesOrder.items():
                         if cachedCargo[attrName] > 0:
                             tipLines.append(u"%s: %sm\u00B3"% (tipAlias, cachedCargo[attrName]))

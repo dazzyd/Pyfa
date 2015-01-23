@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -55,7 +56,7 @@ class PriceViewFull(StatsView):
             self.labelEMStatus.SetLabel("")
 
     def getHeaderText(self, fit):
-        return "Price"
+        return u"市场价格"
 
     def getTextExtentW(self, text):
         width, height = self.parent.GetTextExtent(text)
@@ -75,6 +76,7 @@ class PriceViewFull(StatsView):
 
         gridPrice = wx.GridSizer(1, 3)
         contentSizer.Add(gridPrice, 0, wx.EXPAND | wx.ALL, 0)
+        typeName = {"ship": u"舰船", "fittings": u"装备", "total": u"合计"}
         for type in ("ship", "fittings", "total"):
             image = "%sPrice_big" % type if type != "ship" else "ship_big"
             box = wx.BoxSizer(wx.HORIZONTAL)
@@ -85,7 +87,7 @@ class PriceViewFull(StatsView):
             vbox = wx.BoxSizer(wx.VERTICAL)
             box.Add(vbox, 1, wx.EXPAND)
 
-            vbox.Add(wx.StaticText(contentPanel, wx.ID_ANY, type.capitalize()), 0, wx.ALIGN_LEFT)
+            vbox.Add(wx.StaticText(contentPanel, wx.ID_ANY, typeName[type]), 0, wx.ALIGN_LEFT)
 
             hbox = wx.BoxSizer(wx.HORIZONTAL)
             vbox.Add(hbox)
