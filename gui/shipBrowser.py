@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import wx
 import copy
 from gui import bitmapLoader
@@ -343,11 +344,11 @@ class NavigationPanel(SFItem.SFBrowserItem):
         self.switchBmp = self.AdjustChannels(self.switchBmpH)
         self.newBmp = self.AdjustChannels(self.newBmpH)
 
-        self.toolbar.AddButton(self.resetBmp, "Ship groups", clickCallback = self.OnHistoryReset, hoverBitmap = self.resetBmpH)
-        self.toolbar.AddButton(self.rewBmp, "Back", clickCallback = self.OnHistoryBack, hoverBitmap = self.rewBmpH)
-        self.btnNew = self.toolbar.AddButton(self.newBmp, "New fitting", clickCallback = self.OnNewFitting, hoverBitmap = self.newBmpH, show = False)
-        self.btnSwitch = self.toolbar.AddButton(self.switchBmpD, "Hide empty ship groups", clickCallback  = self.ToggleEmptyGroupsView, hoverBitmap = self.switchBmpH, show = False)
-        self.toolbar.AddButton(self.searchBmp, "Search fittings", clickCallback = self.ToggleSearchBox, hoverBitmap = self.searchBmpH)
+        self.toolbar.AddButton(self.resetBmp, u"返回舰船类别", clickCallback = self.OnHistoryReset, hoverBitmap = self.resetBmpH)
+        self.toolbar.AddButton(self.rewBmp, u"返回", clickCallback = self.OnHistoryBack, hoverBitmap = self.rewBmpH)
+        self.btnNew = self.toolbar.AddButton(self.newBmp, u"新建装配", clickCallback = self.OnNewFitting, hoverBitmap = self.newBmpH, show = False)
+        self.btnSwitch = self.toolbar.AddButton(self.switchBmpD, u"隐藏空的舰船分类", clickCallback  = self.ToggleEmptyGroupsView, hoverBitmap = self.switchBmpH, show = False)
+        self.toolbar.AddButton(self.searchBmp, u"搜索装配", clickCallback = self.ToggleSearchBox, hoverBitmap = self.searchBmpH)
 
         self.padding = 4
         self.lastSearch = ""
@@ -417,11 +418,11 @@ class NavigationPanel(SFItem.SFBrowserItem):
     def ToggleEmptyGroupsView(self):
         if self.shipBrowser.filterShipsWithNoFits:
             self.shipBrowser.filterShipsWithNoFits = False
-            self.btnSwitch.label = "Hide empty ship groups"
+            self.btnSwitch.label = u"隐藏空的舰船分类"
             self.btnSwitch.normalBmp = self.switchBmpD
         else:
             self.shipBrowser.filterShipsWithNoFits = True
-            self.btnSwitch.label = "Show empty ship groups"
+            self.btnSwitch.label = u"显示空的舰船分类"
             self.btnSwitch.normalBmp = self.switchBmp
 
         stage = self.shipBrowser.GetActiveStage()
@@ -446,7 +447,7 @@ class NavigationPanel(SFItem.SFBrowserItem):
             shipID = self.Parent.GetStageData(stage)
             shipName = self.Parent.GetStage3ShipName()
             sFit = service.Fit.getInstance()
-            fitID = sFit.newFit(shipID, "%s fit" %shipName)
+            fitID = sFit.newFit(shipID, u"%s 装配" %_(shipName))
             self.shipBrowser.fitIDMustEditName = fitID
             wx.PostEvent(self.Parent,Stage3Selected(shipID=shipID, back = True))
             wx.PostEvent(self.mainFrame, FitSelected(fitID=fitID))
@@ -686,7 +687,7 @@ class ShipBrowser(wx.Panel):
         if len(self.categoryList) == 0:
             # set cache of category list
             self.categoryList = list(sMkt.getShipRoot())
-            self.categoryList.sort(key=lambda ship: ship.name)
+            self.categoryList.sort(key=lambda ship: _(ship.name))
 
             # set map & cache of fittings per category
             for cat in self.categoryList:
@@ -696,7 +697,7 @@ class ShipBrowser(wx.Panel):
             if self.filterShipsWithNoFits and not self.categoryFitCache[ship.ID]:
                 continue
             else:
-                self.lpane.AddWidget(CategoryItem(self.lpane, ship.ID, (ship.name, 0)))
+                self.lpane.AddWidget(CategoryItem(self.lpane, ship.ID, (_(ship.name), 0)))
 
         self.navpanel.ShowSwitchEmptyGroupsButton(True)
 
@@ -756,10 +757,10 @@ class ShipBrowser(wx.Panel):
             if self.filterShipsWithNoFits:
                 if fits>0:
                     if filter:
-                        self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (ship.name, fits), ship.race))
+                        self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (_(ship.name), fits), ship.race))
             else:
                 if filter:
-                    self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (ship.name, fits), ship.race))
+                    self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (_(ship.name), fits), ship.race))
 
         self.raceselect.RebuildRaces(racesList)
 
@@ -887,7 +888,7 @@ class ShipBrowser(wx.Panel):
             fitList = sFit.searchFits(query)
 
             for ship in ships:
-                self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (ship.name, len(sFit.getFitsWithShip(ship.ID))), ship.race))
+                self.lpane.AddWidget(ShipItem(self.lpane, ship.ID, (_(ship.name), len(sFit.getFitsWithShip(ship.ID))), ship.race))
 
             for ID, name, shipID, shipName, booster, timestamp in fitList:
                 self.lpane.AddWidget(FitItem(self.lpane, ID, (shipName, name, booster, timestamp), shipID))
@@ -1091,11 +1092,11 @@ class ShipItem(SFItem.SFBrowserItem):
         self.editWidth = 150
         self.padding = 4
 
-        self.tcFitName = wx.TextCtrl(self, wx.ID_ANY, "%s fit" % self.shipName, wx.DefaultPosition, (120,-1), wx.TE_PROCESS_ENTER)
+        self.tcFitName = wx.TextCtrl(self, wx.ID_ANY, u"%s 装配" % self.shipName, wx.DefaultPosition, (120,-1), wx.TE_PROCESS_ENTER)
         self.tcFitName.Show(False)
 
 
-        self.newBtn = self.toolbar.AddButton(self.newBmp,"New", self.newBtnCB)
+        self.newBtn = self.toolbar.AddButton(self.newBmp,u"新建", self.newBtnCB)
 
         self.tcFitName.Bind(wx.EVT_TEXT_ENTER, self.createNewFit)
         self.tcFitName.Bind(wx.EVT_KILL_FOCUS, self.editLostFocus)
@@ -1130,7 +1131,7 @@ class ShipItem(SFItem.SFBrowserItem):
         pos = event.GetPosition()
         pos = self.ScreenToClient(pos)
         contexts = []
-        contexts.append(("baseShip", "Ship Basic"))
+        contexts.append(("baseShip", u"舰船基础"))
         menu = ContextMenu.getMenu(self.baseItem, *contexts)
         self.PopupMenu(menu, pos)
 
@@ -1173,7 +1174,7 @@ class ShipItem(SFItem.SFBrowserItem):
             self.tcFitName.Show(False)
             self.createNewFit()
         else:
-            self.tcFitName.SetValue("%s fit" % self.shipName)
+            self.tcFitName.SetValue(u"%s 装配" % self.shipName)
             self.tcFitName.Show()
 
             self.tcFitName.SetFocus()
@@ -1270,12 +1271,12 @@ class ShipItem(SFItem.SFBrowserItem):
         shipName, fittings = self.shipFittingInfo
 
         if fittings <1:
-            fformat = "No fits"
+            fformat = u"无装配"
         else:
             if fittings == 1:
-                fformat = "%d fit"
+                fformat = u"%d 个装配"
             else:
-                fformat = "%d fits"
+                fformat = u"%d 个装配"
 
         mdc.SetFont(self.fontNormal)
         mdc.DrawText(fformat %fittings if fittings >0 else fformat, self.textStartx, self.fittingsy)
@@ -1410,7 +1411,7 @@ class FitItem(SFItem.SFBrowserItem):
         # access these by index based on toggle for booster fit
 
         self.fitMenu = wx.Menu()
-        self.toggleItem = self.fitMenu.Append(-1, "Booster Fit", kind=wx.ITEM_CHECK)
+        self.toggleItem = self.fitMenu.Append(-1, u"舰队加成装配", kind=wx.ITEM_CHECK)
         self.fitMenu.Check(self.toggleItem.GetId(), self.fitBooster)
         self.Bind(wx.EVT_MENU, self.OnPopupItemSelected, self.toggleItem)
 
@@ -1418,7 +1419,7 @@ class FitItem(SFItem.SFBrowserItem):
             # If there is an active fit, get menu for setting individual boosters
             self.fitMenu.AppendSeparator()
             boosterMenu = self.mainFrame.additionsPane.gangPage.FitDNDPopupMenu
-            self.fitMenu.AppendMenu(wx.ID_ANY, 'Set Booster', boosterMenu)
+            self.fitMenu.AppendMenu(wx.ID_ANY, u'设为舰队加成', boosterMenu)
 
         self.boosterBmp = bitmapLoader.getBitmap("fleet_fc_small", "icons")
         self.copyBmp    = bitmapLoader.getBitmap("fit_add_small", "icons")
@@ -1451,10 +1452,10 @@ class FitItem(SFItem.SFBrowserItem):
 
         self.SetDraggable()
 
-        self.boosterBtn = self.toolbar.AddButton(self.boosterBmp,"Booster", show=self.fitBooster)
-        self.toolbar.AddButton(self.copyBmp,"Copy", self.copyBtnCB)
-        self.renameBtn = self.toolbar.AddButton(self.renameBmp,"Rename", self.renameBtnCB)
-        self.toolbar.AddButton(self.deleteBmp, "Delete", self.deleteBtnCB)
+        self.boosterBtn = self.toolbar.AddButton(self.boosterBmp,u"舰队加成", show=self.fitBooster)
+        self.toolbar.AddButton(self.copyBmp,u"复制", self.copyBtnCB)
+        self.renameBtn = self.toolbar.AddButton(self.renameBmp,u"重命名", self.renameBtnCB)
+        self.toolbar.AddButton(self.deleteBmp, u"删除", self.deleteBtnCB)
 
         self.tcFitName = wx.TextCtrl(self, wx.ID_ANY, "%s" % self.fitName, wx.DefaultPosition, (self.editWidth,-1), wx.TE_PROCESS_ENTER)
 

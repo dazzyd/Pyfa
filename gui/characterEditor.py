@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -31,7 +32,7 @@ import gui.globalEvents as GE
 
 class CharacterEditor(wx.Frame):
     def __init__(self, parent):
-        wx.Frame.__init__ (self, parent, id=wx.ID_ANY, title=u"pyfa: Character Editor", pos=wx.DefaultPosition,
+        wx.Frame.__init__ (self, parent, id=wx.ID_ANY, title=u"pyfa: 角色编辑器", pos=wx.DefaultPosition,
                             size=wx.Size(641, 600), style=wx.DEFAULT_FRAME_STYLE|wx.FRAME_FLOAT_ON_PARENT|wx.TAB_TRAVERSAL)
 
         i = wx.IconFromBitmap(bitmapLoader.getBitmap("character_small", "icons"))
@@ -69,6 +70,7 @@ class CharacterEditor(wx.Frame):
                    ("rename", bitmapLoader.getBitmap("rename", "icons")),
                    ("copy", wx.ART_COPY),
                    ("delete", wx.ART_DELETE))
+        buttonsName = {"new": u"创建", "rename": u"重命名", "copy": u"复制","delete": u"删除"}
 
         size = None
         for name, art in buttons:
@@ -80,7 +82,7 @@ class CharacterEditor(wx.Frame):
             btn.SetMinSize(size)
             btn.SetMaxSize(size)
 
-            btn.SetToolTipString("%s character" % name.capitalize())
+            btn.SetToolTipString(u"%s角色" % buttonsName[name])
             btn.Bind(wx.EVT_BUTTON, getattr(self, name))
             setattr(self, "btn%s" % name.capitalize(), btn)
             self.navSizer.Add(btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 2)
@@ -98,7 +100,7 @@ class CharacterEditor(wx.Frame):
         #=======================================================================
         self.aview = APIView(self.viewsNBContainer)
 
-        self.viewsNBContainer.AddPage(self.sview, "Skills")
+        self.viewsNBContainer.AddPage(self.sview, u"技能")
 
         #=======================================================================
         # Disabled for RC2
@@ -189,13 +191,13 @@ class CharacterEditor(wx.Frame):
         id = self.skillTreeChoice.Append(sChar.getCharName(charID), charID)
         self.skillTreeChoice.SetSelection(id)
         self.unrestrict()
-        self.btnSave.SetLabel("Create")
+        self.btnSave.SetLabel(u"创建")
         self.rename(None)
         self.charChanged(None)
 
     def rename(self, event):
         if event is not None:
-            self.btnSave.SetLabel("Rename")
+            self.btnSave.SetLabel(u"重命名")
         self.skillTreeChoice.Hide()
         self.characterRename.Show()
         self.navSizer.Replace(self.skillTreeChoice, self.characterRename)
@@ -244,7 +246,7 @@ class CharacterEditor(wx.Frame):
         id = self.skillTreeChoice.Append(sChar.getCharName(charID), charID)
         self.skillTreeChoice.SetSelection(id)
         self.unrestrict()
-        self.btnSave.SetLabel("Copy")
+        self.btnSave.SetLabel(u"复制")
         self.rename(None)
         wx.PostEvent(self, GE.CharChanged())
 
@@ -283,8 +285,8 @@ class SkillTreeView (wx.Panel):
         tree.SetImageList(self.imageList)
         self.skillBookImageId = self.imageList.Add(bitmapLoader.getBitmap("skill_small", "icons"))
 
-        tree.AddColumn("Skill")
-        tree.AddColumn("Level")
+        tree.AddColumn(u"技能")
+        tree.AddColumn(u"等级")
         tree.SetMainColumn(0)
 
         self.root = tree.AddRoot("Skills")
@@ -306,13 +308,13 @@ class SkillTreeView (wx.Panel):
         self.levelIds = {}
 
         idUnlearned = wx.NewId()
-        self.levelIds[idUnlearned] = "Not learned"
-        self.levelChangeMenu.Append(idUnlearned, "Unlearn")
+        self.levelIds[idUnlearned] = u"未吸收"
+        self.levelChangeMenu.Append(idUnlearned, u"未吸收")
 
         for level in xrange(6):
             id = wx.NewId()
             self.levelIds[id] = level
-            self.levelChangeMenu.Append(id, "Level %d" % level)
+            self.levelChangeMenu.Append(id, u"等级 %d" % level)
 
         self.levelChangeMenu.Bind(wx.EVT_MENU, self.changeLevel)
         self.SetSizer(pmainSizer)
@@ -327,7 +329,7 @@ class SkillTreeView (wx.Panel):
         tree = self.skillTreeListCtrl
 
         for id, name in groups:
-            childId = tree.AppendItem(root, name, imageId)
+            childId = tree.AppendItem(root, _(name), imageId)
             tree.SetPyData(childId, id)
             tree.AppendItem(childId, "dummy")
 
@@ -345,9 +347,11 @@ class SkillTreeView (wx.Panel):
             char = self.Parent.Parent.getActiveCharacter()
             for id, name in sChar.getSkills(tree.GetPyData(root)):
                 iconId = self.skillBookImageId
-                childId = tree.AppendItem(root, name, iconId, data=wx.TreeItemData(id))
+                childId = tree.AppendItem(root, _(name), iconId, data=wx.TreeItemData(id))
                 level = sChar.getSkillLevel(char, id)
-                tree.SetItemText(childId, "Level %d" % level if isinstance(level, int) else level, 1)
+                if level == "Not learned":
+                    level = u"未吸收"
+                tree.SetItemText(childId, u"等级 %d" % level if isinstance(level, int) else level, 1)
 
             tree.SortChildren(root)
 
@@ -378,7 +382,7 @@ class SkillTreeView (wx.Panel):
             selection = self.skillTreeListCtrl.GetSelection()
             skillID = self.skillTreeListCtrl.GetPyData(selection)
 
-            self.skillTreeListCtrl.SetItemText(selection, "Level %d" % level if isinstance(level, int) else level, 1)
+            self.skillTreeListCtrl.SetItemText(selection, u"等级 %d" % level if isinstance(level, int) else level, 1)
             sChar.changeLevel(charID, skillID, level)
 
         event.Skip()

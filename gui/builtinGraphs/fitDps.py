@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -31,10 +32,10 @@ class FitDpsGraph(Graph):
                             "signatureRadius": "signatureRadius",
                             "velocity": "maxVelocity"}
 
-    propertyLabelMap = {"angle": "Target Angle (degrees)",
-                        "distance": "Distance to Target (km)",
-                        "signatureRadius": "Target Signature Radius (m)",
-                        "velocity": "Target Velocity (m/s)"}
+    propertyLabelMap = {"angle": u"目标角度 (°)",
+                        "distance": u"目标距离 (km)",
+                        "signatureRadius": u"目标信号半径 (m)",
+                        "velocity": u"目标速度 (m/s)"}
 
     defaults = FitDps.defaults.copy()
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import wx
 
 from gui.preferenceView import PreferenceView
@@ -27,29 +28,29 @@ class PFGeneralPref ( PreferenceView):
         self.m_staticline1 = wx.StaticLine( panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
         mainSizer.Add( self.m_staticline1, 0, wx.EXPAND|wx.TOP|wx.BOTTOM, 5 )
 
-        self.cbGlobalChar = wx.CheckBox( panel, wx.ID_ANY, u"Use global character", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbGlobalChar = wx.CheckBox( panel, wx.ID_ANY, u"使用全局角色", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbGlobalChar, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbGlobalDmgPattern = wx.CheckBox( panel, wx.ID_ANY, u"Use global damage pattern", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbGlobalDmgPattern = wx.CheckBox( panel, wx.ID_ANY, u"使用全局伤害类型", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbGlobalDmgPattern, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbGlobalForceReload = wx.CheckBox( panel, wx.ID_ANY, u"Factor in reload time", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbGlobalForceReload = wx.CheckBox( panel, wx.ID_ANY, u"计入装填时间", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbGlobalForceReload, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbCompactSkills = wx.CheckBox( panel, wx.ID_ANY, u"Compact skills needed tooltip", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbCompactSkills = wx.CheckBox( panel, wx.ID_ANY, u"使用紧凑的技能需求列表", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbCompactSkills, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbFitColorSlots = wx.CheckBox( panel, wx.ID_ANY, u"Color fitting view by slot", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbFitColorSlots = wx.CheckBox( panel, wx.ID_ANY, u"装配窗口按槽位上色", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbFitColorSlots, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbReopenFits = wx.CheckBox( panel, wx.ID_ANY, u"Reopen previous fits on startup", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbReopenFits = wx.CheckBox( panel, wx.ID_ANY, u"启动时恢复关闭前窗口", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbReopenFits, 0, wx.ALL|wx.EXPAND, 5 )
 
-        self.cbRackSlots = wx.CheckBox( panel, wx.ID_ANY, u"Separate Racks", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbRackSlots = wx.CheckBox( panel, wx.ID_ANY, u"分隔槽位", wx.DefaultPosition, wx.DefaultSize, 0 )
         mainSizer.Add( self.cbRackSlots, 0, wx.ALL|wx.EXPAND, 5 )
 
         labelSizer = wx.BoxSizer( wx.VERTICAL )
-        self.cbRackLabels = wx.CheckBox( panel, wx.ID_ANY, u"Show Rack Labels", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.cbRackLabels = wx.CheckBox( panel, wx.ID_ANY, u"显示槽位标签", wx.DefaultPosition, wx.DefaultSize, 0 )
         labelSizer.Add( self.cbRackLabels, 0, wx.ALL|wx.EXPAND, 5 )
         mainSizer.Add( labelSizer, 0, wx.LEFT|wx.EXPAND, 30 )
 

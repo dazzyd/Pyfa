@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -43,65 +44,65 @@ class MainMenuBar(wx.MenuBar):
 
         # File menu
         fileMenu = wx.Menu()
-        self.Append(fileMenu, "&File")
+        self.Append(fileMenu, u"文件 (F)")
 
-        fileMenu.Append(self.mainFrame.addPageId, "&New Tab\tCTRL+T", "Open a new fitting tab")
-        fileMenu.Append(self.mainFrame.closePageId, "&Close Tab\tCTRL+W", "Close the current fit")
+        fileMenu.Append(self.mainFrame.addPageId, u"新建标签 (N)\tCTRL+T", "Open a new fitting tab")
+        fileMenu.Append(self.mainFrame.closePageId, u"关闭标签 (C)\tCTRL+W", "Close the current fit")
         fileMenu.AppendSeparator()
 
-        fileMenu.Append(self.backupFitsId, "&Backup All Fittings", "Backup all fittings to a XML file")
-        fileMenu.Append(wx.ID_OPEN, "&Import Fittings\tCTRL+O", "Import fittings into pyfa")
-        fileMenu.Append(wx.ID_SAVEAS, "&Export Fitting\tCTRL+S", "Export fitting to another format")
+        fileMenu.Append(self.backupFitsId, u"备份所有装配 (B)", "Backup all fittings to a XML file")
+        fileMenu.Append(wx.ID_OPEN, u"导入装配 (I)\tCTRL+O", "Import fittings into pyfa")
+        fileMenu.Append(wx.ID_SAVEAS, u"导出装配 (E)\tCTRL+S", "Export fitting to another format")
         fileMenu.AppendSeparator()
-        fileMenu.Append(self.exportHtmlId, "Export HTML", "Export fits to HTML file (set in Preferences)")
-        fileMenu.Append(self.exportSkillsNeededId, "Export &Skills Needed", "Export skills needed for this fitting")
-        fileMenu.Append(self.importCharacterId, "Import C&haracter File", "Import characters into pyfa from file")
+        fileMenu.Append(self.exportHtmlId, u"导出 HTML", "Export fits to HTML file (set in Preferences)")
+        fileMenu.Append(self.exportSkillsNeededId, u"导出所需技能 (S)", "Export skills needed for this fitting")
+        fileMenu.Append(self.importCharacterId, u"导入角色文件 (H)", "Import characters into pyfa from file")
         fileMenu.AppendSeparator()
-        fileMenu.Append(wx.ID_EXIT)
+        fileMenu.Append(wx.ID_EXIT, u"退出")
 
         # Edit menu
         editMenu = wx.Menu()
-        self.Append(editMenu, "&Edit")
+        self.Append(editMenu, u"编辑 (E)")
 
         #editMenu.Append(wx.ID_UNDO)
         #editMenu.Append(wx.ID_REDO)
 
-        copyText = "&To Clipboard" + ("\tCTRL+C" if 'wxMSW' in wx.PlatformInfo else "")
-        pasteText = "&From Clipboard" + ("\tCTRL+V" if 'wxMSW' in wx.PlatformInfo else "")
+        copyText = u"导出到剪贴板 (T)" + ("\tCTRL+C" if 'wxMSW' in wx.PlatformInfo else "")
+        pasteText = u"从剪贴板导入 (F)" + ("\tCTRL+V" if 'wxMSW' in wx.PlatformInfo else "")
         editMenu.Append(wx.ID_COPY, copyText, "Export a fit to the clipboard")
         editMenu.Append(wx.ID_PASTE, pasteText, "Import a fit from the clipboard")
 
         # Character menu
         windowMenu = wx.Menu()
-        self.Append(windowMenu, "&Window")
+        self.Append(windowMenu, u"窗口 (W)")
 
-        charEditItem = wx.MenuItem(windowMenu, self.characterEditorId, "&Character Editor\tCTRL+E")
+        charEditItem = wx.MenuItem(windowMenu, self.characterEditorId, u"角色编辑器 (C)\tCTRL+E")
         charEditItem.SetBitmap(bitmapLoader.getBitmap("character_small", "icons"))
         windowMenu.AppendItem(charEditItem)
 
-        damagePatternEditItem = wx.MenuItem(windowMenu, self.damagePatternEditorId, "Damage Pattern Editor\tCTRL+D")
+        damagePatternEditItem = wx.MenuItem(windowMenu, self.damagePatternEditorId, u"伤害类型编辑器\tCTRL+D")
         damagePatternEditItem.SetBitmap(bitmapLoader.getBitmap("damagePattern_small", "icons"))
         windowMenu.AppendItem(damagePatternEditItem)
 
-        targetResistsEditItem = wx.MenuItem(windowMenu, self.targetResistsEditorId, "Target Resists Editor\tCTRL+R")
+        targetResistsEditItem = wx.MenuItem(windowMenu, self.targetResistsEditorId, u"目标抗性编辑器\tCTRL+R")
         targetResistsEditItem.SetBitmap(bitmapLoader.getBitmap("explosive_big", "icons"))
         windowMenu.AppendItem(targetResistsEditItem)
 
-        graphFrameItem = wx.MenuItem(windowMenu, self.graphFrameId, "Graphs\tCTRL+G")
+        graphFrameItem = wx.MenuItem(windowMenu, self.graphFrameId, u"伤害图表\tCTRL+G")
         graphFrameItem.SetBitmap(bitmapLoader.getBitmap("graphs_small", "icons"))
         windowMenu.AppendItem(graphFrameItem)
 
-        preferencesItem = wx.MenuItem(windowMenu, wx.ID_PREFERENCES, "Preferences\tCTRL+P")
+        preferencesItem = wx.MenuItem(windowMenu, wx.ID_PREFERENCES, u"参数设置\tCTRL+P")
         preferencesItem.SetBitmap(bitmapLoader.getBitmap("preferences_small", "icons"))
         windowMenu.AppendItem(preferencesItem)
 
         # Help menu
         helpMenu = wx.Menu()
-        self.Append(helpMenu, "&Help")
-        helpMenu.Append(self.wikiId, "Wiki", "Go to wiki on GitHub")
-        helpMenu.Append(self.forumId, "Forums", "Go to EVE Online Forum thread")
+        self.Append(helpMenu, u"帮助 (H)")
+        helpMenu.Append(self.wikiId, u"Wiki", "Go to wiki on GitHub")
+        helpMenu.Append(self.forumId, u"论坛", "Go to EVE Online Forum thread")
         helpMenu.AppendSeparator()
-        helpMenu.Append(wx.ID_ABOUT)
+        helpMenu.Append(wx.ID_ABOUT, u"关于")
 
         if config.debug:
             helpMenu.Append( self.mainFrame.widgetInspectMenuID, "Open Widgets Inspect tool", "Open Widgets Inspect tool")

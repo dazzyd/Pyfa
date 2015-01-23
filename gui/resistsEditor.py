@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2014 Ryan Holmes
 #
@@ -28,7 +29,7 @@ class ResistsEditorDlg (wx.Dialog):
     DAMAGE_TYPES = ("em", "thermal", "kinetic", "explosive")
 
     def __init__(self, parent):
-        wx.Dialog.__init__ (self, parent, id = wx.ID_ANY, title = u"Target Resists Editor", size = wx.Size( 350,240 ))
+        wx.Dialog.__init__ (self, parent, id = wx.ID_ANY, title = u"目标抗性编辑器", size = wx.Size( 350,240 ))
 
         self.block = False
         self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
@@ -62,6 +63,7 @@ class ResistsEditorDlg (wx.Dialog):
                    ("rename", bitmapLoader.getBitmap("rename", "icons")),
                    ("copy", wx.ART_COPY),
                    ("delete", wx.ART_DELETE))
+        buttonsName = {"new": u"创建", "rename": u"重命名", "copy": u"复制","delete": u"删除"}
         for name, art in buttons:
                 bitmap = wx.ArtProvider.GetBitmap(art, wx.ART_BUTTON) if name != "rename" else art
                 btn = wx.BitmapButton(self, wx.ID_ANY, bitmap)
@@ -74,7 +76,7 @@ class ResistsEditorDlg (wx.Dialog):
                 btn.Layout()
                 setattr(self, name, btn)
                 btn.Enable(True)
-                btn.SetToolTipString("%s resist profile" % name.capitalize())
+                btn.SetToolTipString("%s" % buttonsName[name])
                 headerSizer.Add(btn, 0, wx.ALIGN_CENTER_VERTICAL)
 
         mainSizer.Add(headerSizer, 0, wx.EXPAND | wx.ALL, 2)
@@ -260,7 +262,7 @@ class ResistsEditorDlg (wx.Dialog):
         and resets values to default. Hands off to the rename function for
         further handling.
         '''
-        self.btnSave.SetLabel("Create")
+        self.btnSave.SetLabel(u"创建")
         self.restrict()
         # reset values
         for type in self.DAMAGE_TYPES:
@@ -277,7 +279,7 @@ class ResistsEditorDlg (wx.Dialog):
         self.showInput(True)
 
         if event is not None:  # Rename mode
-            self.btnSave.SetLabel("Rename")
+            self.btnSave.SetLabel(u"重命名")
             self.namePicker.SetValue(self.getActivePattern().name)
         else:  # Create mode
             self.namePicker.SetValue("")
@@ -297,11 +299,11 @@ class ResistsEditorDlg (wx.Dialog):
         self.stNotice.SetLabel("")
 
         if newName == "":
-            self.stNotice.SetLabel("Invalid name")
+            self.stNotice.SetLabel(u"无效名称")
             return
 
         sTR = service.TargetResists.getInstance()
-        if event.EventObject.Label == "Create":
+        if event.EventObject.Label == u"创建":
             p = sTR.newPattern()
         else:
             # we are renaming, so get the current selection
@@ -310,7 +312,7 @@ class ResistsEditorDlg (wx.Dialog):
         # test for patterns of the same name
         for pattern in self.choices:
             if pattern.name == newName and p != pattern:
-                self.stNotice.SetLabel("Name already used, please choose another")
+                self.stNotice.SetLabel(u"该名称已存在，请选择另一个名称")
                 return
 
         # rename regardless of new or rename
@@ -328,7 +330,7 @@ class ResistsEditorDlg (wx.Dialog):
         self.choices.append(p)
         id = self.ccResists.Append(p.name)
         self.ccResists.SetSelection(id)
-        self.btnSave.SetLabel("Copy")
+        self.btnSave.SetLabel(u"复制")
         self.renamePattern()
         self.patternChanged()
 

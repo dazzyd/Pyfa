@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -61,8 +62,9 @@ class MarketBrowser(wx.Panel):
         p.SetSizer(box)
         vbox.Add(p, 0, wx.EXPAND)
         self.metaButtons = []
+        metaName = {"normal": u"普通", "faction": u"势力", "complex": u"死亡空间", "officer": u"官员"}
         for name in self.sMkt.META_MAP.keys():
-            btn = wx.ToggleButton(p, wx.ID_ANY, name.capitalize(), style=wx.BU_EXACTFIT)
+            btn = wx.ToggleButton(p, wx.ID_ANY, metaName[name], style=wx.BU_EXACTFIT)
             setattr(self, name, btn)
             box.Add(btn, 1, wx.ALIGN_CENTER)
             btn.Bind(wx.EVT_TOGGLEBUTTON, self.toggleMetaButton)
@@ -127,7 +129,7 @@ class MarketTree(wx.TreeCtrl):
         sMkt = self.sMkt
         for mktGrp in sMkt.getMarketRoot():
             iconId = self.addImage(sMkt.getIconByMarketGroup(mktGrp))
-            childId = self.AppendItem(self.root, mktGrp.name, iconId, data=wx.TreeItemData(mktGrp.ID))
+            childId = self.AppendItem(self.root, _(mktGrp.name), iconId, data=wx.TreeItemData(mktGrp.ID))
             # All market groups which were never expanded are dummies, here we assume
             # that all root market groups are expandable
             self.AppendItem(childId, "dummy")
@@ -135,7 +137,7 @@ class MarketTree(wx.TreeCtrl):
 
         # Add recently used modules node
         rumIconId = self.addImage("market_small", "icons")
-        self.AppendItem(self.root, "Recently Used Modules", rumIconId, data = wx.TreeItemData(RECENTLY_USED_MODULES))
+        self.AppendItem(self.root, u"最近使用过的装备", rumIconId, data = wx.TreeItemData(RECENTLY_USED_MODULES))
 
         # Bind our lookup method to when the tree gets expanded
         self.Bind(wx.EVT_TREE_ITEM_EXPANDING, self.expandLookup)
@@ -162,7 +164,7 @@ class MarketTree(wx.TreeCtrl):
                     continue
                 iconId = self.addImage(sMkt.getIconByMarketGroup(childMktGrp))
                 try:
-                    childId = self.AppendItem(root, childMktGrp.name, iconId, data=wx.TreeItemData(childMktGrp.ID))
+                    childId = self.AppendItem(root, _(childMktGrp.name), iconId, data=wx.TreeItemData(childMktGrp.ID))
                 except:
                     continue
                 if sMkt.marketGroupHasTypesCheck(childMktGrp) is False:

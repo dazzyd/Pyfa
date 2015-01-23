@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -32,7 +33,7 @@ class DmgPatternEditorDlg (wx.Dialog):
     DAMAGE_TYPES = ("em", "thermal", "kinetic", "explosive")
 
     def __init__(self, parent):
-        wx.Dialog.__init__ (self, parent, id = wx.ID_ANY, title = u"Damage Pattern Editor", size = wx.Size( 400,240 ))
+        wx.Dialog.__init__ (self, parent, id = wx.ID_ANY, title = u"伤害类型编辑器", size = wx.Size( 400,240 ))
 
         self.block = False
         self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
@@ -68,6 +69,7 @@ class DmgPatternEditorDlg (wx.Dialog):
                    ("rename", bitmapLoader.getBitmap("rename", "icons")),
                    ("copy", wx.ART_COPY),
                    ("delete", wx.ART_DELETE))
+        buttonsName = {"new": u"创建", "rename": u"重命名", "copy": u"复制","delete": u"删除"}
         for name, art in buttons:
                 bitmap = wx.ArtProvider.GetBitmap(art, wx.ART_BUTTON) if name != "rename" else art
                 btn = wx.BitmapButton(self, wx.ID_ANY, bitmap)
@@ -80,7 +82,7 @@ class DmgPatternEditorDlg (wx.Dialog):
                 btn.Layout()
                 setattr(self, name, btn)
                 btn.Enable(True)
-                btn.SetToolTipString("%s pattern" % name.capitalize())
+                btn.SetToolTipString("%s" % buttonsName[name])
                 headerSizer.Add(btn, 0, wx.ALIGN_CENTER_VERTICAL)
 
 
@@ -257,12 +259,12 @@ class DmgPatternEditorDlg (wx.Dialog):
             editObj = getattr(self, "%sEdit"%type)
             editObj.SetValue(0)
 
-        self.btnSave.SetLabel("Create")
+        self.btnSave.SetLabel(u"创建")
         self.renamePattern()
 
     def renamePattern(self,event=None):
         if event is not None:
-            self.btnSave.SetLabel("Rename")
+            self.btnSave.SetLabel(u"重命名")
 
         self.ccDmgPattern.Hide()
         self.namePicker.Show()
@@ -287,11 +289,11 @@ class DmgPatternEditorDlg (wx.Dialog):
         p = self.getActivePattern()
         for pattern in self.choices:
             if pattern.name == newName and p != pattern:
-                self.stNotice.SetLabel("Name already used, please choose another")
+                self.stNotice.SetLabel(u"该名称已存在，请选择另一个名称")
                 return
 
         if newName == "":
-            self.stNotice.SetLabel("Invalid name.")
+            self.stNotice.SetLabel(u"无效名称")
             return
 
         sDP = service.DamagePattern.getInstance()
@@ -319,7 +321,7 @@ class DmgPatternEditorDlg (wx.Dialog):
         self.choices.append(p)
         id = self.ccDmgPattern.Append(p.name)
         self.ccDmgPattern.SetSelection(id)
-        self.btnSave.SetLabel("Copy")
+        self.btnSave.SetLabel(u"复制")
         self.renamePattern()
         self.patternChanged()
 
