@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import wx
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
@@ -22,10 +23,11 @@ class TacticalMode(ContextMenu):
         return srcContext == "fittingShip" and self.modes is not None
 
     def getText(self, itmContext, selection):
-        return "Tactical Mode"
+        return u"战术模式"
 
     def addMode(self, menu, mode):
-        label = mode.item.name.rsplit()[-2]
+        #label = mode.item.name.rsplit()[-2]
+        label = _(mode.item.name)[-4:]
         id = wx.NewId()
         self.modeIds[id] = mode
         menuItem = wx.MenuItem(menu, id, label, kind=wx.ITEM_RADIO)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import wx
@@ -11,7 +12,7 @@ class OpenFit(ContextMenu):
         return srcContext == "projectedFit"
 
     def getText(self, itmContext, selection):
-        return "Open Fit in New Tab"
+        return u"在新标签页中打开装配"
 
     def activate(self, fullContext, selection, i):
         fit = selection[0]

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import service
@@ -20,7 +21,7 @@ class AmmoPattern(ContextMenu):
         return False
 
     def getText(self, itmContext, selection):
-        return "Set {0} as Damage Pattern".format(itmContext if itmContext is not None else "Item")
+        return u"设置{0}为伤害类型".format(itmContext if itmContext is not None else u"物品")
 
     def activate(self, fullContext, selection, i):
         item = selection[0]

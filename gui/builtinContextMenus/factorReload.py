@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import service
@@ -13,7 +14,7 @@ class FactorReload(ContextMenu):
         return srcContext == "firepowerViewFull" and self.mainFrame.getActiveFit() is not None
 
     def getText(self, itmContext, selection):
-        return "Factor in Reload Time"
+        return u"计入装填时间"
 
     def activate(self, fullContext, selection, i):
         sFit = service.Fit.getInstance()

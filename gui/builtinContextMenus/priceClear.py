@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import wx
@@ -12,7 +13,7 @@ class PriceClear(ContextMenu):
         return srcContext == "priceViewFull"
 
     def getText(self, itmContext, selection):
-        return "Reset Price Cache"
+        return u"清空价格缓存"
 
     def activate(self, fullContext, selection, i):
         sMkt = service.Market.getInstance()

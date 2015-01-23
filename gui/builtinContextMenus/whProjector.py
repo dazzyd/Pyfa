@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import gui.globalEvents as GE
@@ -12,7 +13,7 @@ class WhProjector(ContextMenu):
         return srcContext == "projected"
 
     def getText(self, itmContext, selection):
-        return "Add System Effects"
+        return u"添加星系效果"
 
     def getSubMenu(self, context, selection, rootMenu, i, pitem):
         msw = True if "wxMSW" in wx.PlatformInfo else False
@@ -23,7 +24,7 @@ class WhProjector(ContextMenu):
         sub = wx.Menu()
 
         for swType in sorted(effdata):
-            subItem = wx.MenuItem(sub, wx.ID_ANY, swType)
+            subItem = wx.MenuItem(sub, wx.ID_ANY, _(swType))
             grandSub = wx.Menu()
             subItem.SetSubMenu(grandSub)
             sub.AppendItem(subItem)
@@ -32,7 +33,7 @@ class WhProjector(ContextMenu):
                 wxid = wx.NewId()
                 swObj, swName, swClass = swData
                 self.idmap[wxid] = (swObj, swName)
-                grandSubItem = wx.MenuItem(grandSub, wxid, swClass)
+                grandSubItem = wx.MenuItem(grandSub, wxid, _(swClass))
                 if msw:
                     rootMenu.Bind(wx.EVT_MENU, self.handleSelection, grandSubItem)
                 else:

@@ -44,7 +44,7 @@ class ModuleAmmoPicker(ContextMenu):
         return len(self.charges) > 0
 
     def getText(self, itmContext, selection):
-        return "Charge"
+        return u"弹药"
 
     def turretSorter(self, charge):
         damage = 0
@@ -99,7 +99,7 @@ class ModuleAmmoPicker(ContextMenu):
 
     def addCharge(self, menu, charge):
         id = wx.NewId()
-        name = charge.name if charge is not None else "Empty"
+        name = _(charge.name) if charge is not None else u"空"
         self.chargeIds[id] = charge
         item = wx.MenuItem(menu, id, name)
         menu.Bind(wx.EVT_MENU, self.handleAmmoSwitch, item)
@@ -124,7 +124,7 @@ class ModuleAmmoPicker(ContextMenu):
         moduleName = self.module.item.name
         # Make sure we do not consider mining turrets as combat turrets
         if hardpoint == Hardpoint.TURRET and self.module.getModifiedItemAttr("miningAmount") is None:
-            self.addSeperator(m, "Long Range")
+            self.addSeperator(m, u"射程远")
             items = []
             range = None
             nameBase = None
@@ -142,7 +142,7 @@ class ModuleAmmoPicker(ContextMenu):
                 currRange = charge.getAttribute("weaponRangeMultiplier")
                 if nameBase is None or range != currRange or nameBase != currBase:
                     if sub is not None:
-                        self.addSeperator(sub, "More Damage")
+                        self.addSeperator(sub, u"伤害高")
 
                     sub = None
                     base = charge
@@ -154,19 +154,19 @@ class ModuleAmmoPicker(ContextMenu):
                     if sub is None:
                         sub = wx.Menu()
                         sub.Bind(wx.EVT_MENU, self.handleAmmoSwitch)
-                        self.addSeperator(sub, "Less Damage")
+                        self.addSeperator(sub, u"伤害低")
                         item.SetSubMenu(sub)
                         sub.AppendItem(self.addCharge(rootMenu if msw else sub, base))
 
                     sub.AppendItem(self.addCharge(rootMenu if msw else sub, charge))
 
             if sub is not None:
-                self.addSeperator(sub, "More Damage")
+                self.addSeperator(sub, u"伤害高")
 
             for item in items:
                 m.AppendItem(item)
 
-            self.addSeperator(m, "Short Range")
+            self.addSeperator(m, u"射程近")
         elif hardpoint == Hardpoint.MISSILE and moduleName != 'Festival Launcher':
             self.charges.sort(key=self.missileSorter)
             type = None
@@ -177,17 +177,17 @@ class ModuleAmmoPicker(ContextMenu):
 
                 if currType != type or type is None:
                     if sub is not None:
-                        self.addSeperator(sub, "More Damage")
+                        self.addSeperator(sub, u"伤害高")
 
                     type = currType
-                    item = wx.MenuItem(m, wx.ID_ANY, type.capitalize())
+                    item = wx.MenuItem(m, wx.ID_ANY, _(type.capitalize()))
                     bitmap = bitmapLoader.getBitmap("%s_small" % type, "icons")
                     if bitmap is not None:
                         item.SetBitmap(bitmap)
 
                     sub = wx.Menu()
                     sub.Bind(wx.EVT_MENU, self.handleAmmoSwitch)
-                    self.addSeperator(sub, "Less Damage")
+                    self.addSeperator(sub, u"伤害低")
                     item.SetSubMenu(sub)
                     m.AppendItem(item)
 
@@ -199,7 +199,7 @@ class ModuleAmmoPicker(ContextMenu):
             if defender is not None:
                 m.AppendItem(self.addCharge(rootMenu if msw else m, defender))
             if sub is not None:
-                self.addSeperator(sub, "More Damage")
+                self.addSeperator(sub, u"伤害高")
         else:
             self.charges.sort(key=self.nameSorter)
             for charge in self.charges:

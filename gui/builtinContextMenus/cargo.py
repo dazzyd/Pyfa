@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 from gui.itemStats import ItemStatsDialog
 import eos.types
@@ -17,7 +18,7 @@ class Cargo(ContextMenu):
         return True
 
     def getText(self, itmContext, selection):
-        return "Add {0} to Cargo".format(itmContext)
+        return u"添加{0}到货柜舱".format(_(itmContext))
 
     def activate(self, fullContext, selection, i):
         sFit = service.Fit.getInstance()
@@ -38,7 +39,7 @@ class CargoAmount(ContextMenu):
         return srcContext in ("cargoItem",) and selection[0].amount >= 0
 
     def getText(self, itmContext, selection):
-        return "Change {0} Quantity".format(itmContext)
+        return u"修改{0}数量".format(_(itmContext))
 
     def activate(self, fullContext, selection, i):
         srcContext = fullContext[0]
@@ -51,7 +52,7 @@ CargoAmount.register()
 class CargoChanger(wx.Dialog):
 
     def __init__(self, parent, cargo, context):
-        wx.Dialog.__init__(self, parent, title="Select Amount", size=wx.Size(220, 60))
+        wx.Dialog.__init__(self, parent, title=u"选择数量", size=wx.Size(220, 60))
         self.cargo = cargo
         self.context = context
 
@@ -62,7 +63,7 @@ class CargoChanger(wx.Dialog):
         bSizer1.Add(self.input, 1, wx.ALL, 5)
         self.input.Bind(wx.EVT_CHAR, self.onChar)
         self.input.Bind(wx.EVT_TEXT_ENTER, self.change)
-        self.button = wx.Button(self, wx.ID_OK, u"Done")
+        self.button = wx.Button(self, wx.ID_OK, u"设置")
         bSizer1.Add(self.button, 0, wx.ALL, 5)
 
         self.SetSizer(bSizer1)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import service
@@ -16,7 +17,7 @@ class Project(ContextMenu):
         return item.isType("projected")
 
     def getText(self, itmContext, selection):
-        return "Project {0} onto Fit".format(itmContext)
+        return u"为当前装配添加{0}效果".format(_(itmContext))
 
     def activate(self, fullContext, selection, i):
         sFit = service.Fit.getInstance()

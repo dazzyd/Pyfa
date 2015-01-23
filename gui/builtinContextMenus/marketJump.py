@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 from gui.itemStats import ItemStatsDialog
 import gui.mainFrame
@@ -29,7 +30,7 @@ class MarketJump(ContextMenu):
         return doit
 
     def getText(self, itmContext, selection):
-        return "{0} Market Group".format(itmContext if itmContext is not None else "Item")
+        return u"{0}市场分组".format(_(itmContext) if itmContext is not None else u"物品")
 
     def activate(self, fullContext, selection, i):
         srcContext = fullContext[0]

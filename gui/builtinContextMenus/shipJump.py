@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import wx
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
@@ -12,7 +13,7 @@ class ShipJump(ContextMenu):
         return srcContext == "fittingShip"
 
     def getText(self, itmContext, selection):
-        return "Open in Ship Browser"
+        return u"在舰船浏览器中打开"
 
     def activate(self, fullContext, selection, i):
         fitID = self.mainFrame.getActiveFit()

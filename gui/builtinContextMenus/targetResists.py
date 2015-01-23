@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import service
@@ -25,7 +26,7 @@ class TargetResists(ContextMenu):
         return len(self.patterns) > 0
 
     def getText(self, itmContext, selection):
-        return "Target Resists"
+        return u"目标抗性"
 
     def handleResistSwitch(self, event):
         pattern = self.patternIds.get(event.Id, False)
@@ -40,7 +41,7 @@ class TargetResists(ContextMenu):
 
     def addPattern(self, rootMenu, pattern):
         id = wx.NewId()
-        name = getattr(pattern, "_name", pattern.name) if pattern is not None else "No Profile"
+        name = getattr(pattern, "_name", pattern.name) if pattern is not None else u"无抗性"
 
         self.patternIds[id] = pattern
         item = wx.MenuItem(rootMenu, id, name)

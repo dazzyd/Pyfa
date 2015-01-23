@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 import gui.mainFrame
 import service
@@ -12,7 +13,7 @@ class ItemRemove(ContextMenu):
         return srcContext == "droneItem"
 
     def getText(self, itmContext, selection):
-        return "Remove {0} Stack".format(itmContext)
+        return u"移除{0}堆叠".format(_(itmContext))
 
     def activate(self, fullContext, selection, i):
         sFit = service.Fit.getInstance()

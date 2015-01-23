@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gui.contextMenu import ContextMenu
 from gui.itemStats import ItemStatsDialog
 import gui.mainFrame
@@ -13,7 +14,7 @@ class DroneSplit(ContextMenu):
         return srcContext in ("droneItem", "projectedDrone") and selection[0].amount > 1
 
     def getText(self, itmContext, selection):
-        return "Split {0} Stack".format(itmContext)
+        return u"拆分{0}堆叠".format(itmContext)
 
     def activate(self, fullContext, selection, i):
         srcContext = fullContext[0]
@@ -27,7 +28,7 @@ DroneSplit.register()
 class DroneSpinner(wx.Dialog):
 
     def __init__(self, parent, drone, context):
-        wx.Dialog.__init__(self, parent, title="Select Amount", size=wx.Size(220, 60))
+        wx.Dialog.__init__(self, parent, title=u"选择数量", size=wx.Size(220, 60))
         self.drone = drone
         self.context = context
 
@@ -39,7 +40,7 @@ class DroneSpinner(wx.Dialog):
 
         bSizer1.Add(self.spinner, 0, wx.ALL, 5)
 
-        self.button = wx.Button(self, wx.ID_OK, u"Split")
+        self.button = wx.Button(self, wx.ID_OK, u"拆分")
         bSizer1.Add(self.button, 0, wx.ALL, 5)
 
         self.SetSizer(bSizer1)

@@ -54,9 +54,9 @@ class ChangeAffectingSkills(ContextMenu):
 
     def addSkill(self, rootMenu, skill, i):
         if i < 0:
-            label = "Not Learned"
+            label = u"未习得"
         else:
-            label = "Level %s" % i
+            label = u"等级 %s" % i
 
         id = wx.NewId()
         self.skillIds[id] = (skill, i)
