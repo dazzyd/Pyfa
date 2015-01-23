@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -30,6 +31,7 @@ from wx.lib.wordwrap import wordwrap
 import service
 import config
 import threading
+import gettext
 
 import gui.aboutData
 import gui.chromeTabs
@@ -108,6 +110,10 @@ class MainFrame(wx.Frame):
 
         MainFrame.__instance = self
 
+        #Setup gettext
+        l10n = gettext.translation('pyfa', 'locale', languages=['zh_CN'])
+        l10n.install(unicode=True)
+
         #Load stored settings (width/height/maximized..)
         self.LoadMainFrameAttribs()
 
@@ -145,10 +151,10 @@ class MainFrame(wx.Frame):
         shipBrowserImg = bitmapLoader.getImage("ship_small", "icons")
 
         self.marketBrowser = MarketBrowser(self.notebookBrowsers)
-        self.notebookBrowsers.AddPage(self.marketBrowser, "Market", tabImage = marketImg, showClose = False)
+        self.notebookBrowsers.AddPage(self.marketBrowser, u"市场", tabImage = marketImg, showClose = False)
 
         self.shipBrowser = ShipBrowser(self.notebookBrowsers)
-        self.notebookBrowsers.AddPage(self.shipBrowser, "Ships", tabImage = shipBrowserImg, showClose = False)
+        self.notebookBrowsers.AddPage(self.shipBrowser, u"舰船", tabImage = shipBrowserImg, showClose = False)
 
         #=======================================================================
         # DISABLED FOR RC2 RELEASE

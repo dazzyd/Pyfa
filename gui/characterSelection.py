@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -31,7 +32,7 @@ class CharacterSelection(wx.Panel):
         mainSizer = wx.BoxSizer(wx.HORIZONTAL)
         self.SetSizer(mainSizer)
 
-        mainSizer.Add(wx.StaticText(self, wx.ID_ANY, "Character: "), 0, wx.CENTER | wx.RIGHT | wx.LEFT, 3)
+        mainSizer.Add(wx.StaticText(self, wx.ID_ANY, u"角色: "), 0, wx.CENTER | wx.RIGHT | wx.LEFT, 3)
 
         # cache current selection to fall back in case we choose to open char editor
         self.charCache = None
@@ -98,7 +99,7 @@ class CharacterSelection(wx.Panel):
             sFit = service.Fit.getInstance()
             sFit.changeChar(fitID, charID)
 
-        choice.Append(u"\u2015 Open Character Editor \u2015", -1)
+        choice.Append(u"\u2015 打开角色编辑器 \u2015", -1)
         self.charCache = self.charChoice.GetCurrentSelection()
 
         if event is not None:
@@ -161,15 +162,15 @@ class CharacterSelection(wx.Panel):
             reqs = sCharacter.checkRequirements(fit)
             sCharacter.skillReqsDict = {'charname':fit.character.name, 'skills':[]}
             if len(reqs) == 0:
-                tip = "All skill prerequisites have been met"
+                tip = u"所有技能均已满足"
                 self.skillReqsStaticBitmap.SetBitmap(self.greenSkills)
             else:
-                tip  = "Skills required:\n"
+                tip  = u"技能需求：\n"
                 condensed = sFit.serviceFittingOptions["compactSkills"]
                 if condensed:
                     dict = self._buildSkillsTooltipCondensed(reqs, skillsMap = {})
                     for key in sorted(dict):
-                        tip += "%s: %d\n" % (key, dict[key])
+                        tip += "%s: %d\n" % (_(key), dict[key])
                 else:
                     tip += self._buildSkillsTooltip(reqs)
                 self.skillReqsStaticBitmap.SetBitmap(self.redSkills)

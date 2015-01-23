@@ -63,7 +63,7 @@ class Price():
         data = []
 
         # Base request URL
-        baseurl = "https://eve-central.com/api/marketstat"
+        baseurl = "http://www.ceve-market.org/api/marketstat"
         data.append(("usesystem", 30000142)) # Use Jita for market
 
         for typeID in toRequest:  # Add all typeID arguments

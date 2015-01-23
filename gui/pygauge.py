@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # --------------------------------------------------------------------------------- #
 # PYFAGAUGE wxPython IMPLEMENTATION
 #
@@ -382,11 +383,11 @@ class PyGauge(wx.PyWindow):
                 range = self._range if self._range > 0.01 else 0
                 value = range - self._value
                 if value < 0:
-                    label = "over"
+                    label = u"超出"
                     value = -value
                 else:
-                    label = "left"
-                formatStr = "{0:." + str(self._fractionDigits) + "f} " + label
+                    label = u"剩余"
+                formatStr = label + " {0:." + str(self._fractionDigits) + "f}"
 
             else:
                 formatStr = "{0:." + str(self._fractionDigits) + "f}%"

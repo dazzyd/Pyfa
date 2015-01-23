@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #===============================================================================
 # Copyright (C) 2010 Diego Duclos
 #
@@ -36,7 +37,7 @@ class AdditionsPane(TogglePanel):
 
         TogglePanel.__init__(self, parent, forceLayout = 1)
 
-        self.SetLabel("Additions")
+        self.SetLabel(u"附加配置")
         pane = self.GetContentPane()
 
         baseSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -58,16 +59,16 @@ class AdditionsPane(TogglePanel):
         gangImg = bitmapLoader.getImage("fleet_fc_small", "icons")
         cargoImg = bitmapLoader.getImage("cargo_small", "icons")
 
-        self.notebook.AddPage(DroneView(self.notebook), "Drones", tabImage = droneImg, showClose = False)
-        self.notebook.AddPage(CargoView(self.notebook), "Cargo", tabImage = cargoImg, showClose = False)
-        self.notebook.AddPage(ImplantView(self.notebook), "Implants", tabImage = implantImg, showClose = False)
-        self.notebook.AddPage(BoosterView(self.notebook), "Boosters", tabImage = boosterImg, showClose = False)
+        self.notebook.AddPage(DroneView(self.notebook), u"无人机", tabImage = droneImg, showClose = False)
+        self.notebook.AddPage(CargoView(self.notebook), u"货柜舱", tabImage = cargoImg, showClose = False)
+        self.notebook.AddPage(ImplantView(self.notebook), u"植入体", tabImage = implantImg, showClose = False)
+        self.notebook.AddPage(BoosterView(self.notebook), u"增效剂", tabImage = boosterImg, showClose = False)
 
         self.projectedPage = ProjectedView(self.notebook)
-        self.notebook.AddPage(self.projectedPage, "Projected", tabImage = projectedImg, showClose = False)
+        self.notebook.AddPage(self.projectedPage, u"所受影响", tabImage = projectedImg, showClose = False)
 
         self.gangPage = GangView(self.notebook)
-        self.notebook.AddPage(self.gangPage, "Fleet", tabImage = gangImg, showClose = False)
+        self.notebook.AddPage(self.gangPage, u"舰队加成", tabImage = gangImg, showClose = False)
         self.notebook.SetSelection(0)
 
     PANES = ["Drones", "Cargo", "Implants", "Boosters", "Projected", "Fleet"]
