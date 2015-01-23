@@ -29,32 +29,34 @@ class BaseName(ViewColumn):
     name = "Base Name"
     def __init__(self, fittingView, params):
         ViewColumn.__init__(self, fittingView)
-        self.columnText = "Name"
+        self.columnText = u"名称"
         self.shipImage = fittingView.imageList.GetImageIndex("ship_small", "icons")
         self.mask = wx.LIST_MASK_TEXT
 
     def getText(self, stuff):
         if isinstance(stuff, Drone):
-            return "%dx %s" % (stuff.amount, stuff.item.name)
+            return "%dx %s" % (stuff.amount, _(stuff.item.name))
         elif isinstance(stuff, Cargo):
-            return "%dx %s" % (stuff.amount, stuff.item.name)
+            return "%dx %s" % (stuff.amount, _(stuff.item.name))
         elif isinstance(stuff, Fit):
-            return "%s (%s)" % (stuff.name, stuff.ship.item.name)
+            return "%s (%s)" % (_(stuff.name), _(stuff.ship.item.name))
         elif isinstance(stuff, Rack):
             if service.Fit.getInstance().serviceFittingOptions["rackLabels"]:
                 if stuff.slot == Slot.MODE:
-                    return u'─ Tactical Mode ─'
+                    return u'─ 战术模式 ─'
                 else:
-                    return u'─ {} Slots ─'.format(Slot.getName(stuff.slot).capitalize())
+                    slotName = {"high": u"高", "med": u"中", "low": u"低", "rig": u"改装件", "subsystem": u"子系统"}
+                    return u"%s槽" % slotName[Slot.getName(stuff.slot).lower()]
             else:
                 return ""
         elif isinstance(stuff, Module):
             if stuff.isEmpty:
-                return "%s Slot" % Slot.getName(stuff.slot).capitalize()
+                slotName = {"high": u"高", "med": u"中", "low": u"低", "rig": u"改装件", "subsystem": u"子系统"}
+                return u"%s槽" % slotName[Slot.getName(stuff.slot).lower()]
             else:
-                return stuff.item.name
+                return _(stuff.item.name)
         else:
             item = getattr(stuff, "item", stuff)
-            return item.name
+            return _(item.name)
 
 BaseName.register()

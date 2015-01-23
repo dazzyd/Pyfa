@@ -34,9 +34,9 @@ class Ammo(ViewColumn):
         if getattr(stuff, "charge", None) is not None:
             shots = stuff.numShots
             if shots > 0:
-                text = "%s (%s)" % (stuff.charge.name, stuff.numShots)
+                text = "%s (%s)" % (_(stuff.charge.name), stuff.numShots)
             else:
-                text = stuff.charge.name
+                text = _(stuff.charge.name)
         else:
             text = ""
 
